@@ -11,4 +11,5 @@ public interface PostService {
     void save(PostDto post);
     void delete(long id);
     void update(long id, PostDto post);
+    List<PostDto> findUserPosts(long userId);
 }

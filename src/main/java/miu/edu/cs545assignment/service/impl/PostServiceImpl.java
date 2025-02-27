@@ -32,13 +32,13 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> filterByAuthor(String author) {
-        List<Post> posts = postRepo.filterByAuthor(author);
+        List<Post> posts = postRepo.findByAuthorContaining(author);
         return listMapper.mapList(posts, new PostDto());
     }
 
     @Override
     public PostDto getById(long id) {
-        Post post = postRepo.getById(id);
+        Post post = postRepo.findById(id).orElse(null);
         if (post == null)
             return null;
         return modelMapper.map(post, PostDto.class);
@@ -51,11 +51,17 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void delete(long id) {
-        postRepo.delete(id);
+        postRepo.deleteById(id);
     }
 
     @Override
     public void update(long id, PostDto post) {
-        postRepo.update(id, modelMapper.map(post, Post.class));
+        postRepo.save(modelMapper.map(post, Post.class));
+    }
+
+    @Override
+    public List<PostDto> findUserPosts(long userId) {
+        List<Post> userPosts = postRepo.findByUserId(userId);
+        return listMapper.mapList(userPosts, PostDto.class);
     }
 }
