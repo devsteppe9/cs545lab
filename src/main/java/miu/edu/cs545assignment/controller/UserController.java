@@ -1,9 +1,7 @@
 package miu.edu.cs545assignment.controller;
 
 
-import miu.edu.cs545assignment.domain.Post;
 import miu.edu.cs545assignment.domain.User;
-import miu.edu.cs545assignment.domain.dto.PostDto;
 import miu.edu.cs545assignment.service.PostService;
 import miu.edu.cs545assignment.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +16,10 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final PostService postService;
 
     @Autowired
     public UserController(UserService userService, PostService postService) {
         this.userService = userService;
-        this.postService = postService;
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -33,15 +29,15 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/posts/more-than-one-post")
-    public List<User> getUsersMoreThanOnePost() {
-        return userService.findMoreThanOnePost();
-    }
-
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public User getById(@PathVariable long id) {
         return userService.findById(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable long id) {
+        userService.deleteById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,8 +47,20 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{userId}/posts")
-    public List<PostDto> getPosts(@PathVariable long userId) {
-        return postService.findUserPosts(userId);
+    @GetMapping("/filter/more-than-one-post")
+    public List<User> getUsersMoreThanOnePost() {
+        return userService.findMoreThanOnePost();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/filter/posts/{number}")
+    public List<User> getUsersWithPostsMoreThan(@PathVariable int number) {
+        return userService.findUsersWithPostsMoreThan(number);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/filter/posts/title/{keyword}")
+    public List<User> getUsersWithPostsContainingKeyword(@PathVariable String keyword) {
+        return userService.findUsersWithPostsContainingKeyword(keyword);
     }
 }

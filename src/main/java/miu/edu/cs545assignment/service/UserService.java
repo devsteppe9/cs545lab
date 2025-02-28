@@ -10,4 +10,8 @@ public interface UserService {
     List<User> findMoreThanOnePost();
     User findById(long id);
     void save(User user);
+    void savePost(long userId, PostDto postDto);
+    void deleteById(long id);
+    List<User> findUsersWithPostsMoreThan(int number);
+    List<User> findUsersWithPostsContainingKeyword(String titleQuery);
 }

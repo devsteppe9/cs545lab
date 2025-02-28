@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +22,8 @@ public class Post {
     private String content;
     private String author;
 
-    @Column(name = "user_id")
-    private long userId;
+    @OneToMany
+    @JoinColumn(name = "post_id")
+    @Cascade(CascadeType.ALL)
+    List<Comment> comments;
 }

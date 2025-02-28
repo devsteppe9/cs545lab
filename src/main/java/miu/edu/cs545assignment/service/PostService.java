@@ -1,5 +1,6 @@
 package miu.edu.cs545assignment.service;
 
+import miu.edu.cs545assignment.domain.Comment;
 import miu.edu.cs545assignment.domain.dto.PostDto;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface PostService {
     void delete(long id);
     void update(long id, PostDto post);
     List<PostDto> findUserPosts(long userId);
+    void saveComment(long postId, Comment comment);
+    List<PostDto> filterByTitleAndUserId(String title, long userId);
 }

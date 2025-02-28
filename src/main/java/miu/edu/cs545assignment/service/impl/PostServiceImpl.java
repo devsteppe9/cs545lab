@@ -1,10 +1,14 @@
 package miu.edu.cs545assignment.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import miu.edu.cs545assignment.domain.Comment;
 import miu.edu.cs545assignment.domain.Post;
+import miu.edu.cs545assignment.domain.User;
 import miu.edu.cs545assignment.domain.dto.PostDto;
 import miu.edu.cs545assignment.helper.ListMapper;
 import miu.edu.cs545assignment.repository.PostRepository;
+import miu.edu.cs545assignment.repository.UserRepository;
 import miu.edu.cs545assignment.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,8 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     ListMapper listMapper;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<PostDto> findAll() {
@@ -61,7 +67,37 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> findUserPosts(long userId) {
-        List<Post> userPosts = postRepo.findByUserId(userId);
-        return listMapper.mapList(userPosts, PostDto.class);
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null)
+            return List.of();
+
+        return user.getPosts()
+                .stream()
+                .map(p -> modelMapper.map(p, PostDto.class))
+                .toList();
     }
+
+    @Override
+    @Transactional
+    public void saveComment(long postId, Comment comment) {
+        Post post = postRepo.findById(postId).orElse(null);
+        if (post == null)
+            return;
+        post.getComments().add(comment);
+    }
+
+    @Override
+    public List<PostDto> filterByTitleAndUserId(String title, long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null)
+            return List.of();
+
+        return user.getPosts()
+                .stream()
+                .filter(p -> p.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .map(p -> modelMapper.map(p, PostDto.class))
+                .toList();
+    }
+
+
 }

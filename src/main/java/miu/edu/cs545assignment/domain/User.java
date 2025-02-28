@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -19,7 +23,9 @@ public class User {
 
     private String name;
 
-    @OneToMany
+    @OneToMany()
     @JoinColumn(name = "user_id")
+    @Cascade(CascadeType.ALL)
+    @Fetch(FetchMode.JOIN)
     List<Post> posts;
 }
