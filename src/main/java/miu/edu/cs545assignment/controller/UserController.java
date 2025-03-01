@@ -1,6 +1,7 @@
 package miu.edu.cs545assignment.controller;
 
 
+import miu.edu.cs545assignment.aspect.ExecutionTime;
 import miu.edu.cs545assignment.domain.User;
 import miu.edu.cs545assignment.service.PostService;
 import miu.edu.cs545assignment.service.UserService;
@@ -22,6 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @ExecutionTime
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<User> getAll() {

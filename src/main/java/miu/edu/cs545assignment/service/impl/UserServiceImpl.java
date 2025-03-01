@@ -6,7 +6,6 @@ import miu.edu.cs545assignment.domain.Post;
 import miu.edu.cs545assignment.domain.User;
 import miu.edu.cs545assignment.domain.dto.PostDto;
 import miu.edu.cs545assignment.helper.ListMapper;
-import miu.edu.cs545assignment.repository.PostRepository;
 import miu.edu.cs545assignment.repository.UserRepository;
 import miu.edu.cs545assignment.repository.UserRepositoryDao;
 import miu.edu.cs545assignment.service.UserService;
