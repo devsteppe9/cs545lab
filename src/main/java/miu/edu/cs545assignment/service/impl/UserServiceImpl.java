@@ -3,6 +3,7 @@ package miu.edu.cs545assignment.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import miu.edu.cs545assignment.domain.Post;
+import miu.edu.cs545assignment.domain.Role;
 import miu.edu.cs545assignment.domain.User;
 import miu.edu.cs545assignment.domain.dto.PostDto;
 import miu.edu.cs545assignment.helper.ListMapper;
@@ -11,6 +12,7 @@ import miu.edu.cs545assignment.repository.UserRepositoryDao;
 import miu.edu.cs545assignment.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,6 +59,16 @@ public class UserServiceImpl implements UserService {
 
         Post post = modelMapper.map(postDto, Post.class);
         user.getPosts().add(post);
+    }
+
+    @Override
+    @Transactional
+    public void saveRole(long userId, Role role) {
+        User user = userRepo.findById(userId).orElse(null);
+        if (user == null)
+            return;
+
+        user.getRoles().add(role);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package miu.edu.cs545assignment;
 
+import miu.edu.cs545assignment.domain.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,5 +19,4 @@ public class Cs545assignmentApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-
 }
