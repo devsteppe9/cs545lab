@@ -23,7 +23,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @ExecutionTime
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<User> getAll() {
